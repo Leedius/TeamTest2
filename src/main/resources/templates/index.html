@@ -115,13 +115,13 @@ let time = 4000;
 let interval;
 
 function createEnemy(){
-	if (interval) clearInterval(interval);
+	clearInterval(interval);
 	interval = setInterval(function(){
 		let e = new Enemy()
 		e.init();
 	}, time);
 	
-	setTimeout(function(){
+	timeout = setTimeout(function(){
 		time *= 2/3;
 		createEnemy();
 	}, 10000);
@@ -240,7 +240,8 @@ function render(){
 function drawRestartButton() {
 	ctx.fillStyle = "white";
 	ctx.font = "24px Arial";
-	ctx.fillText("Press Space to Restart", 175, 400);
+	ctx.fillText("Press Space to Restart", 175, 500);
+	ctx.fillText(`SCORE : ${score}`, 250, 200);
 }
 
 //다시 시작 버튼을 눌렀을 때 게임을 재시작
@@ -249,10 +250,11 @@ document.addEventListener('keydown', function(event) {
 		if (gameOver) {
 			gameOver = false;
 			score = 0;
-			enemyList = [];
+			time = 4000;
+ 			enemyList = [];
 			bulletList = [];
+			clearTimeout(timeout);
 			createEnemy();
-			createBullet();
 			main();
 		}
 		event.preventDefault();
